@@ -1,0 +1,89 @@
+.help-page{
+  min-height:100vh;
+  background:#0b1020;
+  color:white;
+
+  padding:120px 30px;
+
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.faq-box,
+.contact-box,
+.message-box{
+  background:#111827;
+
+  padding:25px;
+
+  border-radius:20px;
+
+  box-shadow:
+  0 0 20px rgba(147,51,234,0.15);
+}
+
+.faq-box h3{
+  cursor:pointer;
+
+  padding:15px;
+
+  border-radius:10px;
+
+  background:#1f2937;
+
+  margin-top:10px;
+}
+
+.faq-box p{
+  padding:10px 15px;
+  color:#cbd5e1;
+}
+
+.contact-box p{
+  margin-top:10px;
+}
+
+.message-box{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.message-box input,
+.message-box textarea{
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:#1f2937;
+
+  color:white;
+}
+
+.message-box textarea{
+  min-height:150px;
+}
+
+.send-btn{
+  background:#9333ea;
+  color:white;
+
+  border:none;
+
+  padding:14px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+  font-size:16px;
+}
+
+.send-btn:hover{
+  background:#7e22ce;
+}

@@ -1,0 +1,15 @@
+.hero{
+  height:100vh;
+  width: 100%;
+  background-image:url("/hero.png") !important;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+}

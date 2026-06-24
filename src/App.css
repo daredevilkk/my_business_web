@@ -1,0 +1,12 @@
+nav ul {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+.hero {
+  height: 100vh;
+  background-image: url("/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
