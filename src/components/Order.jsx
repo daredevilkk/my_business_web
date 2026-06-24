@@ -1,8 +1,21 @@
 import { useEffect, useState } from "react";
 import "./Order.css";
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 function Order() {
   const [orders, setOrders] = useState([]);
+   const navigate = useNavigate();
+  useEffect(() => {
+  const userId = localStorage.getItem("userId");
+ 
+  if (!userId) {
+    navigate("/login");
+  }
+}, []);
 
   useEffect(() => {
     fetch("https://my-business-backend-1z8e.onrender.com/orders")
@@ -17,6 +30,7 @@ function Order() {
         method: "PUT",
       }
     );
+    
 
     setOrders(
       orders.map((order) =>

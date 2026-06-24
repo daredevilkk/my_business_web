@@ -13,3 +13,29 @@
 
   color:white;
 }
+@media (max-width:768px){
+
+  .hero{
+    height:100vh;
+    padding:20px;
+    text-align:center;
+
+    background-position:center;
+    background-size:cover;
+  }
+
+  .hero h1{
+    font-size:32px;
+    line-height:1.2;
+  }
+
+  .hero p{
+    font-size:18px;
+    padding:0 10px;
+  }
+
+  .hero button{
+    width:90%;
+    max-width:300px;
+  }
+}

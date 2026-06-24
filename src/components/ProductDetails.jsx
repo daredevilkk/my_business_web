@@ -1,16 +1,23 @@
-import { useParams } from "react-router-dom";
+
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./ProductDetails.css";
 
 function ProductDetails() {
   const [showOrder, setShowOrder] = useState(false);
 const [paymentMethod, setPaymentMethod] = useState("");
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [address, setAddress] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
 const placeOrder = async () => {
-
+  const userId = localStorage.getItem("userId");
+if (!userId) {
+  alert("Please login first");
+  navigate("/login");
+  return;
+}
   if (!address) {
     alert("Please enter address");
     return;
@@ -30,12 +37,13 @@ const placeOrder = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          productName: product.name,
-          price: product.price,
-          paymentMethod,
-          address,
-        }),
+       body: JSON.stringify({
+  userId,
+  productName: product.name,
+  price: product.price,
+  paymentMethod,
+  address,
+}),
       }
     );
 

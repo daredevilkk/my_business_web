@@ -2,15 +2,14 @@
   position:absolute;
   top:0;
   left:0;
-
   width:100%;
 
   display:flex;
   justify-content:space-between;
   align-items:center;
-  
-  padding:25px 50px;
+  flex-wrap:wrap;
 
+  padding:25px 50px;
   z-index:100;
 }
 
@@ -22,17 +21,18 @@
 
 .nav-links{
   display:flex;
-  list-style:none;
   gap:30px;
+  list-style:none;
+  margin:0;
+  padding:0;
 }
 
 .nav-links a{
   color:white;
-  transform:translateX(-80px);
   text-decoration:none;
   transition:.3s;
-  font-size: 20px;
-  font-weight: 600;
+  font-size:20px;
+  font-weight:600;
 }
 
 .nav-links a:hover{
@@ -46,4 +46,50 @@
   padding:10px 20px;
   border-radius:8px;
   cursor:pointer;
+}
+
+.hamburger{
+  display:none;
+  font-size:28px;
+  background:none;
+  border:none;
+  color:rgb(147, 11, 185);
+  cursor:pointer;
+}
+
+@media (max-width:768px){
+
+  .navbar{
+    padding:15px 20px;
+  }
+
+  .back-btn{
+    display:none;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .nav-links.show{
+    display:flex;
+    position:absolute;
+    top:70px;
+    right:10px;
+    width:200px;
+    flex-direction:column;
+    background:#111827;
+    padding:15px;
+    border-radius:10px;
+    z-index:1000;
+  }
+
+  .hamburger{
+    display:block;
+    font-size:32px;
+    color:white;
+    background:none;
+    border:none;
+    cursor:pointer;
+  }
 }
