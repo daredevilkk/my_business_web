@@ -18,10 +18,14 @@ function Order() {
 }, []);
 
   useEffect(() => {
-    fetch("https://my-business-backend-1z8e.onrender.com/orders")
-      .then((res) => res.json())
-      .then((data) => setOrders(data));
-  }, []);
+  const userId = localStorage.getItem("userId");
+
+  fetch(
+    `https://my-business-backend-1z8e.onrender.com/orders/${userId}`
+  )
+    .then((res) => res.json())
+    .then((data) => setOrders(data));
+}, []);
 
   const cancelOrder = async (id) => {
     await fetch(
