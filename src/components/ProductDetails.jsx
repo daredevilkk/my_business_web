@@ -38,7 +38,7 @@ if (!userId) {
           "Content-Type": "application/json",
         },
        body: JSON.stringify({
-  userId,
+  userId: localStorage.getItem("userId"),
   productName: product.name,
   price: product.price,
   paymentMethod,
