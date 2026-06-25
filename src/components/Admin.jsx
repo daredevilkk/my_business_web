@@ -9,15 +9,47 @@ function Admin() {
 const [price, setPrice] = useState("");
 const [description, setDescription] = useState("");
 const [height, setHeight] = useState("");
-const [images, setImages] = useState("");
-const [videos, setVideos] = useState("");
+const [images, setImages] = useState([]);
+const [video, setVideo] = useState(null);
 const [shape, setShape] = useState("");
 
 const [radius, setRadius] = useState("");
 const [length, setLength] = useState("");
 const [breadth, setBreadth] = useState("");
 
+const uploadFile = async (file) => {
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  const response = await fetch(
+    "https://my-business-backend-1z8e.onrender.com/upload",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+
+  return data.url;
+};
 const addProduct = async () => {
+
+  const imageUrls = [];
+
+for (const image of images) {
+  const url = await uploadFile(image);
+  imageUrls.push(url);
+}
+
+let videoUrls = [];
+
+if (video) {
+  const url = await uploadFile(video);
+  videoUrls.push(url);
+}
+
   const product = {
   name,
   price: Number(price),
@@ -30,18 +62,13 @@ const addProduct = async () => {
 
   length: length ? Number(length) : null,
   breadth: breadth ? Number(breadth) : null,
-
-  images: images
-  ? images.split(",").map(i => i.trim())
-  : [],
-
-videos: videos
-  ? videos.split(",").map(v => v.trim())
-  : [],
+   images: imageUrls,
+  videos: videoUrls,
+  
 };
 
   try {
-    const response = await fetch("https://my-business-backend-1z8e.onrender.com//products", {
+    const response = await fetch("https://my-business-backend-1z8e.onrender.com/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,6 +89,8 @@ videos: videos
     setRadius("");
     setLength("");
     setBreadth("");
+    setImages([]);
+setVideo(null);
 
   } catch (error) {
     console.log(error);
@@ -179,20 +208,27 @@ videos: videos
         value={height}
         onChange={(e) => setHeight(e.target.value)}
       />
+      <label>Upload Images</label>
 
-      <input
-        type="text"
-        placeholder="/images/table1.jpg,/images/table2.jpg"
-        value={images}
-        onChange={(e) => setImages(e.target.value)}
-      />
+<input
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={(e) =>
+    setImages([...e.target.files])
+  }
+/>
 
-      <input
-        type="text"
-        placeholder="/videos/demo1.mp4,/videos/demo2.mp4"
-        value={videos}
-        onChange={(e) => setVideos(e.target.value)}
-      />
+<label>Upload Video</label>
+
+<input
+  type="file"
+  accept="video/*"
+  onChange={(e) =>
+    setVideo(e.target.files[0])
+  }
+/>
+    
 
       <button
         className="add-btn"
