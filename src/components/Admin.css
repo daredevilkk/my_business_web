@@ -104,3 +104,7 @@
 .add-btn:hover{
   background:#7e22ce;
 }
+.add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

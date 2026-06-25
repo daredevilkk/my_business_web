@@ -12,14 +12,13 @@ const [height, setHeight] = useState("");
 const [images, setImages] = useState([]);
 const [video, setVideo] = useState(null);
 const [shape, setShape] = useState("");
-
+const [loading, setLoading] = useState(false);
 const [radius, setRadius] = useState("");
 const [length, setLength] = useState("");
 const [breadth, setBreadth] = useState("");
 
 const uploadFile = async (file) => {
   const formData = new FormData();
-
   formData.append("file", file);
 
   const response = await fetch(
@@ -30,55 +29,66 @@ const uploadFile = async (file) => {
     }
   );
 
-  const data = await response.json();
+  if (!response.ok) {
+    throw new Error("File upload failed");
+  }
 
+  const data = await response.json();
   return data.url;
 };
 const addProduct = async () => {
-
-  const imageUrls = [];
-
-for (const image of images) {
-  const url = await uploadFile(image);
-  imageUrls.push(url);
+  if (loading) return;
+  if (!name || !price || !description || !height) {
+  alert("Please fill all required fields.");
+  return;
 }
-
-let videoUrls = [];
-
-if (video) {
-  const url = await uploadFile(video);
-  videoUrls.push(url);
-}
-
-  const product = {
-  name,
-  price: Number(price),
-  description,
-  height: Number(height),
-  shape,
-
-  radius: radius ? Number(radius) : null,
-  diameter: radius ? Number(radius) * 2 : null,
-
-  length: length ? Number(length) : null,
-  breadth: breadth ? Number(breadth) : null,
-   images: imageUrls,
-  videos: videoUrls,
-  
-};
+  setLoading(true);
 
   try {
-    const response = await fetch("https://my-business-backend-1z8e.onrender.com/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    });
+
+    const imageUrls = [];
+
+    for (const image of images) {
+      const url = await uploadFile(image);
+      imageUrls.push(url);
+    }
+
+    let videoUrls = [];
+
+    if (video) {
+      const url = await uploadFile(video);
+      videoUrls.push(url);
+    }
+
+    const product = {
+      name,
+      price: Number(price),
+      description,
+      height: Number(height),
+      shape,
+      radius: radius ? Number(radius) : null,
+      diameter: radius ? Number(radius) * 2 : null,
+      length: length ? Number(length) : null,
+      breadth: breadth ? Number(breadth) : null,
+      images: imageUrls,
+      videos: videoUrls,
+    };
+
+    const response = await fetch(
+      "https://my-business-backend-1z8e.onrender.com/products",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      }
+    );
 
     const data = await response.json();
 
     console.log(data);
+
     alert("Product Added Successfully");
 
     setName("");
@@ -90,14 +100,18 @@ if (video) {
     setLength("");
     setBreadth("");
     setImages([]);
-setVideo(null);
+    setVideo(null);
+
+    setLoading(false);
 
   } catch (error) {
     console.log(error);
     alert("Error adding product");
+  } finally {
+    setLoading(false);
+    
   }
 };
-
   if (!isAdmin) {
     return <Navigate to="/admin-login" />;
   }
@@ -231,11 +245,12 @@ setVideo(null);
     
 
       <button
-        className="add-btn"
-        onClick={addProduct}
-      >
-        Add Product
-      </button>
+  className="add-btn"
+  onClick={addProduct}
+  disabled={loading}
+>
+  {loading ? "Uploading..." : "Add Product"}
+</button>
 
     </div>
 
