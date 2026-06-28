@@ -16,7 +16,8 @@ const [loading, setLoading] = useState(false);
 const [radius, setRadius] = useState("");
 const [length, setLength] = useState("");
 const [breadth, setBreadth] = useState("");
-
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://my-business-backend-1z8e.onrender.com";
 const uploadFile = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
