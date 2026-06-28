@@ -3,21 +3,43 @@ import "./AdminLogin.css";
 import { useNavigate } from "react-router-dom";
 const ADMIN_USERNAME = import.meta.env.VITE_ADMIN_USERNAME;
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
-
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://my-business-backend-1z8e.onrender.com";
 
 function AdminLogin() {
   
   const [password, setPassword] = useState("");
   const [userName, setUsername]= useState("");
   const navigate = useNavigate();
-  const login = () => {
-  if (password === ADMIN_PASSWORD && userName === ADMIN_USERNAME) {
+  const login = async () => {
+  if (!userName.trim() || !password.trim()) {
+    alert("Please enter username and password");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/admin-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: userName.trim(),
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      alert(data.message || "Wrong password or username");
+      return;
+    }
+
     localStorage.setItem("isAdmin", "true");
     navigate("/admin");
-  } else {
-    alert("Wrong Password or username");
+  } catch (error) {
+    console.log(error);
+    alert("Unable to login. Please try again.");
   }
-  
 };
 return (
   <div className="admin-login-page">

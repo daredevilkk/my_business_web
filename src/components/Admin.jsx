@@ -22,7 +22,7 @@ const uploadFile = async (file) => {
   formData.append("file", file);
 
   const response = await fetch(
-    "https://my-business-backend-1z8e.onrender.com/upload",
+    `${API_URL}/upload`,
     {
       method: "POST",
       body: formData,
@@ -75,7 +75,7 @@ const addProduct = async () => {
     };
 
     const response = await fetch(
-      "https://my-business-backend-1z8e.onrender.com/products",
+      `${API_URL}/products`,
       {
         method: "POST",
         headers: {
@@ -86,7 +86,9 @@ const addProduct = async () => {
     );
 
     const data = await response.json();
-
+    if (!response.ok || !data.success) {
+  throw new Error(data.message || "Product could not be added");
+}
     console.log(data);
 
     alert("Product Added Successfully");
@@ -105,12 +107,11 @@ const addProduct = async () => {
     setLoading(false);
 
   } catch (error) {
-    console.log(error);
-    alert("Error adding product");
-  } finally {
-    setLoading(false);
-    
-  }
+  console.log(error);
+  alert(error.message||"Error adding product");
+} finally {
+  setLoading(false);
+}
 };
   if (!isAdmin) {
     return <Navigate to="/admin-login" />;
