@@ -66,9 +66,15 @@ if (!userId) {
     .then((data) => {
       setProduct(data);
 
-      if (data.images?.length > 0) {
-        setSelectedImage(data.images[0]);
-      }
+    const images = Array.isArray(data.images)
+  ? data.images
+  : data.images
+    ? [data.images]
+    : [];
+
+if (images.length > 0) {
+  setSelectedImage(images[0]);
+}
     });
 }, [id]);
 
@@ -89,8 +95,13 @@ if (!userId) {
     )}
        <div className="gallery">
 
-  {product.images
-  ?.filter(img => img.trim() !== "")
+ {(Array.isArray(product.images)
+  ? product.images
+  : product.images
+    ? [product.images]
+    : []
+)
+  .filter((img) => img && img.trim() !== "")
   .map((img) => (
 
     <img

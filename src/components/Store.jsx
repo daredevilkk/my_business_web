@@ -1,4 +1,4 @@
-import products from "./Products";
+
 import "./Store.css"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ useEffect(() => {
 >
 
   <img
-    src={product.image}
+    src={product.images?.[0]}
     alt={product.name}
   />
 
